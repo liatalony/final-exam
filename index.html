@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Booking</title>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <form action="#">
+        <section class="progress"></section>
+        <section class="form">
+          <div class="pg1 part">
+            <div class="type-of-pets">
+              <p>What type of pet(s) do you have?</p>
+              <p class="error hidden">*You have to choose st least one</p>
+              <div class="pg1-type-options">
+                <div class="pg1-types">
+                <input type="checkbox" name="type_of_pet" id="pg1-type-cat" class="pg1-type" required/>
+                <label for="pg1-type-cat">
+                  Cat(s)
+                </label>
+              </div>
+              <div class="pg1-types">
+                <input type="checkbox" name="type_of_pet" id="pg1-type-dog" class="pg1-type" />
+                <label for="pg1-type-dog">
+                  Dog(s)
+                </label>
+                </div>
+                <div class="pg1-types">
+                <input type="checkbox" name="type_of_pet" id="pg1-type-other" class="pg1-type" />
+                <label for="pg1-type-other">
+                  Other(s)
+                </label>
+                </div>
+              </div>
+            </div>
+            <div class="start_end">
+              <p>When do you need us?</p>
+              <label for="pg1_start_date">Start date</label>
+              <input type="date" name="start_date" id="pg1_start_date" required>
+              <p class="error hidden">*You have to choose a start date</p> 
+              <label for="pg1_end_date">End date</label>
+              <input type="date" name="end_date" id="pg1_end_date" required> 
+              <p class="error choose hidden">*You have to choose an end date</p> 
+              <p class="error earlier hidden">*End date cannot be earlier than start date</p> 
+            </div>
+            <div class="services">
+              <p>Choose a service</p>
+              <p class="error hidden">*You have to choose st least one</p>
+
+              <div class="pg1-services-options">
+                <div class="pg1-service">
+                  <input type="radio" name="service" id="pg1-sitting" class="service pg1-type" required/>
+                  <label for="pg1-sitting">
+                    <div>
+                    <img class="pg1_service_img" src="images/sitting.png" alt="Pet-sitting">
+                    Pet-sitting
+                    <sub>349-449 dkk</sub>
+                    </div>
+                  </label>
+                  </div>
+              <div class="pg1-service">
+                <input type="radio" name="service" id="pg1-overnight" class="service pg1-type" />
+                <label for="pg1-overnight">
+                  <div>
+                  <img class="pg1_service_img" src="images/overnight.png" alt="overnight stay">
+                  Overnight stay
+                  <sub>999 dkk</sub>
+                  </div>
+                </label>
+                </div>
+                <div class="pg1-service">
+                  <input type="radio" name="service" id="pg1-walking" class="pg1-type dog-only service" />
+                  <label for="pg1-walking" class="dog-only">
+                    <div>
+                    <img class="pg1_service_img" src="images/dog-walk.png" alt="dog-walking">
+                    Dog walking 
+                    <sub>249-349 dkk</sub>
+                    </div>
+                  </label>
+                  </div>
+              <div class="pg1-service">
+                <input type="radio" name="service" id="pg1-boarding" class="pg1-type dog-only service" />
+                <label for="pg1-boarding" class="dog-only">
+                  <div>
+                  <img class="pg1_service_img" src="images/boarding.png" alt="dog boarding">
+                  Boarding
+                  <sub>249-349 dkk</sub>
+                  </div>
+                </label>
+                </div>
+                </div>
+                <div class="days">
+                  <div class="daysGeneral start_end hidden"></div>
+                  <div class="daysFirstLast hidden start_end">
+                  </div>
+                </div>
+            </div>
+<div class="extra">
+  <p>Extra Services</p>
+  <div class="extra-services">
+  <div class="extra-service">
+    <input type="checkbox" name="extra" id="extra1">
+    <label for="extra1">
+      <i class="checkbox"></i>
+      Medication</label>
+  </div>
+  <div class="extra-service">
+    <input type="checkbox" name="extra" id="extra2" checked>
+    <label for="extra2">      
+      <i class="checkbox"></i>
+      Intro meeting</label>
+  </div>
+  <div class="extra-service">
+    <input type="checkbox" name="extra" id="extra3">
+    <label for="extra3">      
+      <i class="checkbox"></i>
+      Virtual intro meeting</label>
+  </div>
+</div>
+</div>
+        </div>
+          <div class="pg2 info part">
+            <div class="name">
+              <div class="pg2-input first"
+              ><label for="first">First name</label>
+              <input type="text" name="last" id="first">
+            </div>
+            <div class="pg2-input last"
+            ><label for="last">Last name</label>
+            <input type="text" name="last" id="last">
+          </div>
+            </div>
+            <div class="pg2-input"
+            ><label for="email">Email</label>
+            <input type="email" name="email" id="email">
+          </div>
+          <div class="pg2-input"
+          ><label for="phone">Phone number</label>
+          <input type="tel" name="phone" id="phone">
+        </div>
+        <div class="pg2-input"
+        ><label for="address">Address</label>
+        <input type="text" name="address" id="address">
+      </div>
+      <div class="city-post">
+        <div class="pg2-input"
+        ><label for="post">Postal Code</label>
+        <input type="number" name="post" id="post">
+      </div>
+      <div class="pg2-input"
+      ><label for="city">City</label>
+      <input type="text" name="city" id="city">
+      </div>
+      </div>
+        </div>
+          <div class="pg3 pets part">
+            <div class="pet-forms">
+
+            </div>
+            <div class="add-pet">
+              <button type="button" class="link">Add Pet</button>
+            </div>
+            <template class="pet-template">
+              <div class="head">
+                <p class="petNum">Pet <span></span></p>
+                <button type="button" class="delete"></button>
+              </div>
+              <div class="type-of-pets">
+                <p>What type of pet do you have?</p>
+                <p class="error hidden">*You have to choose st least one</p>
+                <div class="pg1-type-options">
+                  <div class="pg1-types">
+                  <input type="radio" name="type_of_pet" id="pg3-type-cat" class="pg1-type" required/>
+                  <label for="pg3-type-cat">
+                    Cat
+                  </label>
+                </div>
+                <div class="pg1-types">
+                  <input type="radio" name="type_of_pet" id="pg3-type-dog" class="pg1-type" />
+                  <label for="pg3-type-dog">
+                    Dog
+                  </label>
+                  </div>
+                  <div class="pg1-types">
+                  <input type="radio" name="type_of_pet" id="pg3-type-other" class="pg1-type" />
+                  <label for="pg3-type-other">
+                    Other
+                  </label>
+                  </div>
+                </div>
+              </div>
+              <div class="if-other"></div>
+              <div class="name pg2-input">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name">
+              </div>
+              <div class="age-sex">
+                <div class="age pg2-input">
+                  <label for="age">Age</label>
+                  <input type="number" name="age" id="age">
+                </div>
+                <div class="sex pg2-input">
+                  <label for="sex">Sex</label>
+                  <select name="sex" id="sex">
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+              </div>
+              <div class="breed pg2-input">
+                <label for="breed">Breed</label>
+                <input type="text" name="breed" id="breed">
+              </div>
+              <div class="health pg2-input">
+                <label for="health">Health</label>
+                <textarea name="health" id="health"></textarea>
+              </div>
+              <div class="vaccine pg2-input">
+                <label for="vaccine">Last Vaccinated</label>
+                <input type="date" name="vaccine" id="vaccine">
+              </div>
+            </template>
+          </div>
+          <div class="pg4 extra part">
+            <div class="pg2-input">
+              <label for="keys">Whay should we do with your keys?</label>
+              <select name="keys" id="keys">
+                <option value="Keep">Keep them</option>
+                <option value="mailbox">Drop the off in the mailbox</option>
+                <option value="person">Drop the off in person</option>
+              </select>
+            </div>
+            <div class="pg2-input">
+              <label for="instructions">Care instructions(be as detailed as possible)</label>
+              <textarea rows=3 name="instructions" id="instrucrions"></textarea>
+            </div>
+            <div class="pg2-input">
+              <label for="leave-time">What time do you leave?</label>
+              <input type="time" name="leave-time" id="leave-time">
+            </div>
+            <div class="pg2-input">
+              <label for="arrival-time">What time do you return?</label>
+              <input type="time" name="arrival-time" id="arrival-time">
+            </div>
+          </div>
+          <div class="pg5 confirmation part">
+          </div>
+          <div class="pg6 pay part">
+            <div class="payment-options">
+              <div class="pg1-service">
+                <input type="radio" name="method" id="credit-card" class="pg1-type" />
+                <label for="credit-card">
+                  <div>
+                  <img class="pg6_method_img" src="images/credit-card.png" alt="card">
+                  Credit card
+                  </div>
+                </label>
+                </div>
+                <div class="pg1-service">
+                  <input type="radio" name="method" id="mobilepay" class="pg1-type" />
+                  <label for="mobilepay">
+                    <div>
+                    <img class="pg6_method_img" src="images/clipart2828737.png" alt="mobilepay">
+                    Mobilepay
+                    </div>
+                  </label>
+                  </div>
+            </div>
+            <div class="credit-info"></div>
+          </div>
+          <div class="recipt"></div>
+          <div class="buttons">
+            <button type="button" class="back">Back</button>
+            <button type="button" class="next">Next</button>
+          </div>
+        </section>
+      </form>
+    </main>
+    <footer></footer>
+  </body>
+</html>
