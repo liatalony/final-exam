@@ -245,8 +245,25 @@ input.invalid {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 5px 0px;
 }
 
 .prices{
   margin-left: 20px;
+}
+.total{
+  border-top: 1px solid #777777;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.bookingName{
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.headline{
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 15px;
 }

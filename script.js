@@ -2,16 +2,13 @@ window.addEventListener("DOMContentLoaded", init);
 let currentTab = 0; // Current tab is set to be the first tab (0)
 let petCount = 0;
 function init() {
-  console.log("Hello there...");
 showTab(currentTab); // Display the current tab
 addPetForm(petCount);
  let nextBtn = document.querySelector(".next"); 
- console.log(nextBtn);
  nextBtn.addEventListener("click", ()=>{
   nextPrev(1)
  });
  let backBtn = document.querySelector(".back"); 
- console.log(backBtn);
  backBtn.addEventListener("click", ()=>{
   nextPrev(-1)
  });
@@ -20,7 +17,6 @@ addPetForm(petCount);
  addPetBtn.addEventListener("click", addPetForm);
 
  let pg1Types = document.querySelectorAll(".pg1-types input[type=checkbox]");
- console.log(pg1Types);
  pg1Types.forEach((type)=>{
 type.addEventListener("input", filterServices)
  })
@@ -28,7 +24,6 @@ type.addEventListener("input", filterServices)
  services.forEach((e)=>{
   e.addEventListener("input", displayfields);
  })
- console.log(services);
  filterServices();
  displayfields();
 }
@@ -41,13 +36,20 @@ function showTab(tab){
   }else{
     document.querySelector(".back").classList.remove("hidden");
   }
+  if (tab == 4) {
+    document.querySelector(".next").textContent = "Confirm";
+  } else if (tab == 5) {
+    document.querySelector(".next").textContent = `Pay ${totalPrice} kr`;
+  }else{
+    document.querySelector(".next").textContent = "Next";
+  }
 }
 
 function nextPrev(n){
   let tabs = document.getElementsByClassName("part");
   if (n == 1 && !validateForm()) return false;
   if (currentTab == 3) {
-    showConfirmation();
+    numOfDays();
   }
   tabs[currentTab].style.display = "none";
   currentTab = currentTab + n;
@@ -211,8 +213,7 @@ while (date1 < date2) {
   date1.setDate(date1.getDate() + 1);
 }
 console.log( "weekend days: " + weekendDays);
-return false;
-}
+showConfirmation();}
 
 function timesPerDay(){
   document.querySelector(".daysGeneral").classList.remove("hidden")
@@ -254,7 +255,7 @@ function selectdays(question, id, container){
   container.append(label);
   container.append(input);
 }
-
+let totalPrice;
 function showConfirmation(){
   let price;
   let weekendPrice = 0;
@@ -273,14 +274,11 @@ function showConfirmation(){
   //combining pet names
   for (let i = 0; i < pets.length; i++) {
     const element = pets[i].value;
-    console.log(element);
     if (i==0) {petsNames = element;}
     else if(i==pets.length-1){petsNames = petsNames + " and " + element}
     else{petsNames = petsNames + ", " + element;}
   }
   template.querySelector(".servicedPets").textContent=petsNames; // what appears on the page
-  console.log(petsNames);
-  console.log(pets);
   template.querySelector(".chosenService").textContent = selected.textContent; // service name, next to pet names
 //--------</booking name and pet names>---------------//
 
@@ -292,9 +290,8 @@ function showConfirmation(){
     template.querySelector(".onRest").textContent = selected.textContent+": "+document.querySelector("#timesGeneral").value;
     if (document.querySelector("#timesGeneral").value == "Once Daily"){ //if the value for "how many time a day" is Once
       price = sub.substring(0, sub.indexOf("-")); // get the lower price
-      template.querySelector(".onRestDays .price").textContent = days_difference + "x" + price;  // total amount of days X the price
+      template.querySelector(".onRestDays .price").textContent = days_difference + "x" + price+" kr";  // total amount of days X the price
       restPrice = days_difference*price;
-      console.log(restPrice);
       let first = template.querySelector(".onFirstDay"); // times on first day
       let last = template.querySelector(".onLastDay"); // times on last day
       first.parentElement.removeChild(first); // remove them since they dont exist
@@ -322,7 +319,7 @@ function showConfirmation(){
         last.textContent = "Last day: "+lastDay;
         lastPrice = sub.substring(0, sub.indexOf("-")); // get lower price
         template.querySelector(".onLastDay .price").textContent = lastPrice+" kr";
-        lastDayPrice = lastPrice;
+        lastDayPrice = lastPrice*1;
 
         //if only the last day is the same
       }else if (lastDay==document.querySelector("#timesGeneral").value) {
@@ -334,7 +331,7 @@ function showConfirmation(){
         first.textContent = "First day: "+ firstDay;
         firstPrice = sub.substring(0, sub.indexOf("-")); // get lower price
         template.querySelector(".onFirstDay .price").textContent = firstPrice+" kr";
-        firstDayPrice = firstPrice;
+        firstDayPrice = firstPrice*1;
         
         // if both are Once
       }else{
@@ -344,14 +341,12 @@ function showConfirmation(){
         let first = template.querySelector(".onFirstDay .onFirst"); // times on first day
         first.textContent = "First day: "+ firstDay;
         template.querySelector(".onFirstDay .price").textContent = firstPrice+" kr";
-        firstDayPrice = firstPrice;
+        firstDayPrice = firstPrice*1;
         let last = template.querySelector(".onLastDay .onLast");
         last.textContent = "Last day: "+ lastDay;
         template.querySelector(".onLastDay .price").textContent = firstPrice+" kr";
-        lastDayPrice = firstPrice;
+        lastDayPrice = firstPrice*1;
       }
-      console.log("first day: " + firstPrice);
-      console.log("last day: " + lastPrice);
     }
 
     // service with no amount of times per day
@@ -367,17 +362,38 @@ function showConfirmation(){
   //--------</firstlast days + rest of days>------------//
   //--------<weekend price>-----------------------------//
   if (weekendDays => 0) {
-    template.querySelector(".weekendDays .price").textContent = weekendDays+"x"+99+" kr"
+    template.querySelector(".weekendDays .price").textContent = weekendDays+"x99 kr"
     weekendPrice = weekendDays*99;
   }else{
     let weekend = template.querySelector(".weekendDays .price");
     weekend.parentElement.remove(weekend);
   }
   //--------</weekend price>----------------------------//
+  //--------<medication price>--------------------------//
+  let medication = document.querySelector("#extra1");
+  if (medication.checked) {
+    template.querySelector(".onMedicationDays .price").textContent = days_difference+"x30 kr";
+    medicationPrice = days_difference*30;
+  }else{
+    let medicin = template.querySelector(".onMedicationDays");
+    medicin.parentElement.remove(medicin);
+  }
+  //--------</medication price>-------------------------//
+  //--------<total>------------------------------------//
+  let total = document.querySelector(".total .price");
+  let priceArray = [firstDayPrice, lastDayPrice, restPrice, medicationPrice, weekendPrice]
+  totalPrice =priceArray.reduce((a,b)=>{
+    return a+b;
+  },0);
+  console.log(totalPrice);
+  console.log(firstDayPrice);
+  console.log(lastDayPrice);
+  console.log(restPrice);
+  console.log(medicationPrice);
+  console.log(weekendPrice);
 
-  console.log(selected.textContent);
-  console.log(price);
-  console.log( template.querySelector(".fromTo").textContent);
+  total.textContent = totalPrice+" kr";
+  //--------</total>------------------------------------//
   document.querySelector(".bookings").innerHTML = "";
 document.querySelector(".bookings").append(template);
 }
