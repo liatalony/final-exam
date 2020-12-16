@@ -58,7 +58,7 @@
                   <label for="pg1-sitting">
                     <div>
                     <img class="pg1_service_img" src="images/sitting.png" alt="Pet-sitting">
-                    Pet-sitting
+                    <p class="service-name">Pet-sitting</p>
                     <sub>349-449 dkk</sub>
                     </div>
                   </label>
@@ -68,7 +68,7 @@
                 <label for="pg1-overnight">
                   <div>
                   <img class="pg1_service_img" src="images/overnight.png" alt="overnight stay">
-                  Overnight stay
+                  <p class="service-name">Overnight stay</p>
                   <sub>999 dkk</sub>
                   </div>
                 </label>
@@ -78,7 +78,7 @@
                   <label for="pg1-walking" class="dog-only">
                     <div>
                     <img class="pg1_service_img" src="images/dog-walk.png" alt="dog-walking">
-                    Dog walking 
+                    <p class="service-name">Dog walking </p>
                     <sub>249-349 dkk</sub>
                     </div>
                   </label>
@@ -88,7 +88,7 @@
                 <label for="pg1-boarding" class="dog-only">
                   <div>
                   <img class="pg1_service_img" src="images/boarding.png" alt="dog boarding">
-                  Boarding
+                  <p class="service-name">Boarding</p>
                   <sub>249-349 dkk</sub>
                   </div>
                 </label>
@@ -104,22 +104,22 @@
   <p>Extra Services</p>
   <div class="extra-services">
   <div class="extra-service">
-    <input type="checkbox" name="extra" id="extra1">
+    <input type="checkbox" name="extra" id="extra1" value="30">
     <label for="extra1">
       <i class="checkbox"></i>
-      Medication</label>
+      <p>Medication</p></label>
   </div>
   <div class="extra-service">
-    <input type="checkbox" name="extra" id="extra2" checked>
+    <input type="checkbox" name="extra" id="extra2" value="299" checked>
     <label for="extra2">      
       <i class="checkbox"></i>
-      Intro meeting</label>
+      <p>meeting</p></label>
   </div>
   <div class="extra-service">
-    <input type="checkbox" name="extra" id="extra3">
+    <input type="checkbox" name="extra" value="149" id="extra3">
     <label for="extra3">      
       <i class="checkbox"></i>
-      Virtual intro meeting</label>
+      <p>Virtual intro meeting</p></label>
   </div>
 </div>
 </div>
@@ -197,7 +197,7 @@
               <div class="if-other"></div>
               <div class="name pg2-input">
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name">
+                <input class="pet-name" type="text" name="name" id="name">
               </div>
               <div class="age-sex">
                 <div class="age pg2-input">
@@ -249,6 +249,34 @@
             </div>
           </div>
           <div class="pg5 confirmation part">
+            <p>Your Booking</p>
+            <div class="bookings"></div>
+            <template class="bookingTemp">
+              <p class="bookingName"><span class="chosenService">service</span> - <span class="servicedPets">Pet names</span></p>
+              <div class="prices">
+                <p class="fromTo">date - date</p>
+                <div class="onRestDays confPrice">
+                  <p class="onRest">service</p>
+                  <p class="price">10 kr</p>
+                </div>
+                <div class="onFirstDay confPrice">
+                  <p class="onFirst">first day</p>
+                  <p class="price">10 kr</p>
+                </div>
+                <div class="onLastDay confPrice">
+                  <p class="onLast">Last day</p>
+                  <p class="price">10 kr</p>
+                </div>
+                <div class="weekendDays confPrice">
+                  <p class="onWeekend">Weekend</p>
+                  <p class="price">99 kr</p>
+                </div>
+                <div class="onMedicationDays confPrice">
+                  <p class="onMedication">Medication</p>
+                  <p class="price">30 kr</p>
+                </div>
+              </div>
+            </template>
           </div>
           <div class="pg6 pay part">
             <div class="payment-options">
