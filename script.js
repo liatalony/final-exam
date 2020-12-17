@@ -24,8 +24,46 @@ type.addEventListener("input", filterServices)
  services.forEach((e)=>{
   e.addEventListener("input", displayfields);
  })
+
+ let methods = document.querySelectorAll(".paymentMethod");
+ console.log(methods);
+ methods.forEach((method)=>{
+   method.addEventListener("input", showDetails);
+ })
  filterServices();
  displayfields();
+}
+
+const pet = {
+  type:"",
+  name:"",
+  age:undefined,
+  breed:"",
+  Health:"",
+  lastVaccinated:undefined
+};
+
+const formDetails = {
+  from:undefined,
+  to:undefined,
+  service:"",
+  timesPerDay:undefined,
+  timesOnFirst:undefined,
+  timesOnLast:undefined,
+  medication:false,
+  intro:true,
+  virtualIntro:false,
+  name:"",
+  email:"",
+  phone:"",
+  address:"",
+  postal:"",
+  city:"",
+  pets:[],
+  keys:"",
+  inst:"",
+  timeOfLeave:"",
+  timeOfReturn:""
 }
 
 function showTab(tab){
@@ -43,6 +81,7 @@ function showTab(tab){
   }else{
     document.querySelector(".next").textContent = "Next";
   }
+  updateStep(tab);
 }
 
 function nextPrev(n){
@@ -52,12 +91,20 @@ function nextPrev(n){
     numOfDays();
   }
   tabs[currentTab].style.display = "none";
+  updateStep(tabs);
   currentTab = currentTab + n;
-  if (currentTab >= tabs.length) {
-//    document.getElementById("regForm").submit();
+
+  if (currentTab == 6) {
+    //ocument.querySelector("form").submit();
+    document.querySelector(".next").setAttribute("type", "submit");
+    console.log("submit");
+    document.querySelector(".buttons").classList.add("hidden");
+    document.querySelector(".progress").classList.add("hidden");
+    document.querySelector(".recipt").classList.remove("hidden")
     return false;
   } else {
     // Otherwise, display the correct tab:
+    document.querySelector(".next").setAttribute("type", "button");
     showTab(currentTab);
   }
 }
@@ -66,7 +113,7 @@ function validateForm(){
     // This function deals with validation of the form fields
     let valid = true;
     let tabs = document.getElementsByClassName("part");
-    let inputs = tabs[currentTab].getElementsByTagName("input");
+    let inputs = tabs[currentTab].getElementsByClassName("inputs");
     // A loop that checks every input field in the current tab:
     for (i = 0; i < inputs.length; i++) {
       // If a field is empty...
@@ -79,29 +126,35 @@ function validateForm(){
     }
     if (tabs[currentTab].className == "pg1 part") {
       let checkbox = tabs[currentTab].querySelectorAll("input[type=checkbox].pg1-type:checked");
-      console.log(checkbox);
       if (checkbox.length == 0) {
         valid = false
       }
   
       let radio = tabs[currentTab].querySelectorAll("input[type=radio].pg1-type:checked");
-      console.log(radio);
       if (radio.length == 0) {
         valid = false
       }
+    }
+    if (valid) {
+      document.querySelectorAll(".step")[currentTab].classList.add("done");
     }
     
     // If the valid status is true, mark the step as finished and valid:
     return valid; // return the valid status
 }
 
-function updateStep(){}
+function updateStep (){
+  let steps = document.querySelectorAll(".step");
+  for (let i = 0; i < steps.length; i++) {
+    steps[i].classList.remove("active");
+  }
+steps[currentTab].classList.add("active");
+}
 
 function filterServices(){
   let typeCat = document.querySelector("#pg1-type-cat");
   let typeother = document.querySelector("#pg1-type-other");
   if (typeCat.checked || typeother.checked) {
-    console.log("no dog only services");
     let dogInputs = document.querySelectorAll("input.dog-only");
     let dogLabels = document.querySelectorAll("label.dog-only");
     for (let i = 0; i < dogInputs.length; i++) {
@@ -111,7 +164,6 @@ function filterServices(){
     for (let i = 0; i < dogLabels.length; i++) {
       let x = dogLabels[i];
       x.classList.add("hidden")
-      console.log(x);
     }
     
   } else {
@@ -161,7 +213,6 @@ function addPetForm (){
   radio.forEach(e => {
     e.addEventListener("input", ()=>{
       if (e.checked == true&&e.id==`pg3-type-other${petCount}`) {
-        console.log("checked");
         let other = document.createElement("div");
         other.className="other pg2-input";
         let otherLabel = document.createElement("label");
@@ -175,7 +226,6 @@ function addPetForm (){
         ifOther.append(other)
       } else{
         ifOther.innerHTML = "";
-        console.log("unchecked");
       }
     })
   });
@@ -213,7 +263,8 @@ while (date1 < date2) {
   date1.setDate(date1.getDate() + 1);
 }
 console.log( "weekend days: " + weekendDays);
-showConfirmation();}
+showConfirmation();
+}
 
 function timesPerDay(){
   document.querySelector(".daysGeneral").classList.remove("hidden")
@@ -244,6 +295,7 @@ function selectdays(question, id, container){
   label.textContent = question;
   let input = document.createElement("select");
   input.setAttribute("id", id);
+  input.classList.add("inputs");
   let option1 = document.createElement("option");
   option1.textContent = "Once Daily";
   option1.setAttribute("value", "Once Daily");
@@ -361,12 +413,12 @@ function showConfirmation(){
   }
   //--------</firstlast days + rest of days>------------//
   //--------<weekend price>-----------------------------//
-  if (weekendDays => 0) {
+  if (weekendDays) {
     template.querySelector(".weekendDays .price").textContent = weekendDays+"x99 kr"
     weekendPrice = weekendDays*99;
   }else{
-    let weekend = template.querySelector(".weekendDays .price");
-    weekend.parentElement.remove(weekend);
+    let weekend = template.querySelector(".weekendDays");
+    weekend.parentElement.removeChild(weekend);
   }
   //--------</weekend price>----------------------------//
   //--------<medication price>--------------------------//
@@ -376,7 +428,7 @@ function showConfirmation(){
     medicationPrice = days_difference*30;
   }else{
     let medicin = template.querySelector(".onMedicationDays");
-    medicin.parentElement.remove(medicin);
+    medicin.parentElement.removeChild(medicin);
   }
   //--------</medication price>-------------------------//
   //--------<total>------------------------------------//
@@ -397,3 +449,99 @@ function showConfirmation(){
   document.querySelector(".bookings").innerHTML = "";
 document.querySelector(".bookings").append(template);
 }
+
+function showDetails(){
+  let card = document.querySelector(".paymentMethod#credit-card");
+  if (card.checked) {
+    let nameLabel = document.createElement("label");
+    nameLabel.setAttribute("for", "cardHolder");
+    nameLabel.textContent = "Name";
+    let nameInput = document.createElement("input");
+    nameInput.setAttribute("type", "text");
+    nameInput.setAttribute("id", "cardHolder");
+    nameInput.classList.add("inputs")
+    let cardLabel = document.createElement("label");
+    cardLabel.setAttribute("for", "card-element");
+    cardLabel.textContent="Credit or Debit card";
+    let cardInput = document.createElement("div");
+    cardInput.setAttribute("id", "card-element");
+    cardInput.classList.add("field");
+    let errormsg = document.createElement("p");
+    errormsg.classList.add("error","hidden");
+    document.querySelector(".credit-info").append(nameLabel, nameInput, cardLabel, cardInput, errormsg);
+    stripeStuff();
+  }else{
+    document.querySelector(".credit-info").innerHTML="";
+  }
+}
+var stripe = Stripe('pk_test_51HzJxADA3uJiKcuR4X3s8HnqtQUW6CaWBI0f03dR064VRvTE10LUaBoYNgsL7wGgqAknPicUMgGeKcSlzpFDkmQf00VXwvFGJu');
+var elements = stripe.elements();
+var cardElement = elements.create('card',  {
+  hidePostalCode: true,
+  iconStyle: "solid",
+  style: {
+    base: {
+      iconColor: "#14675e",
+      color: "#555555",
+      lineHeight: "14px",
+      fontWeight: 300,
+      fontFamily: '"Lato", Helvetica, sans-serif',
+      fontSize: "14px",
+
+      "::placeholder": {
+        color: "#8898AA",
+      },
+    },
+    invalid: {
+      iconColor: "#e85746",
+      color: "#e85746",
+    },
+  },
+  classes: {
+    focus: "is-focused",
+    empty: "is-empty",
+  },
+});
+function stripeStuff(){
+  cardElement.mount('#card-element');
+  cardElement.on("change", function (event) {
+    console.log(event);
+    setOutcome(event);
+  });
+
+}
+
+function setOutcome(result) {
+  console.log("hi there!!");
+  let errorElement = document.querySelector(".credit-info .error");
+  errorElement.classList.add("hidden");
+
+  if (result.token) {
+    // Use the token to create a charge or a customer
+    // https://stripe.com/docs/payments/charges-api
+
+  } else if (result.error) {
+    errorElement.textContent = result.error.message;
+    errorElement.classList.remove("hidden");
+  }
+}
+
+document.querySelector("form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  //this.contact_number.value = Math.random() * 100000 | 0;
+                // these IDs from the previous steps
+             /*   emailjs.sendForm('confirmation_xo7e3gj', 'booking_form', this)
+                    .then(function() {
+                        console.log('SUCCESS!');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                    });*/
+  console.log("submiting");
+  let form = document.querySelector("form#form");
+  console.log(form);
+  let extraDetails = {
+    name: form.querySelector("#cardHolder").value,
+  };
+  stripe.createToken(cardElement, extraDetails).then(setOutcome);
+});
+

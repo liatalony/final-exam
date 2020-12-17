@@ -4,14 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking</title>
+    <script type="text/javascript"src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function() {
+      emailjs.init("user_3ILUxneVjgd9PTIbaIhh9");
+    })();
+    </script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script defer src="script.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
   </head>
   <body>
-    <header></header>
+    <header>
+      <h1>Book a Service</h1>
+    </header>
     <main>
-      <form action="#">
-        <section class="progress"></section>
+      <form id="form">
+        <section class="progress">
+          <ul>
+            <li class="step active"></li>
+            <li class="step"></li>
+            <li class="step"></li>
+            <li class="step"></li>
+            <li class="step"></li>
+            <li class="step"></li>
+          </ul>
+        </section>
         <section class="form">
           <div class="pg1 part">
             <div class="type-of-pets">
@@ -41,10 +59,10 @@
             <div class="start_end">
               <p>When do you need us?</p>
               <label for="pg1_start_date">Start date</label>
-              <input type="date" name="start_date" id="pg1_start_date" required>
+              <input type="date" name="start_date" id="pg1_start_date" class="inputs" required>
               <p class="error hidden">*You have to choose a start date</p> 
               <label for="pg1_end_date">End date</label>
-              <input type="date" name="end_date" id="pg1_end_date" required> 
+              <input type="date" name="end_date" id="pg1_end_date" class="inputs" required> 
               <p class="error choose hidden">*You have to choose an end date</p> 
               <p class="error earlier hidden">*End date cannot be earlier than start date</p> 
             </div>
@@ -113,7 +131,7 @@
     <input type="checkbox" name="extra" id="extra2" value="299" checked>
     <label for="extra2">      
       <i class="checkbox"></i>
-      <p>meeting</p></label>
+      <p>Intro meeting</p></label>
   </div>
   <div class="extra-service">
     <input type="checkbox" name="extra" value="149" id="extra3">
@@ -128,33 +146,33 @@
             <div class="name">
               <div class="pg2-input first"
               ><label for="first">First name</label>
-              <input type="text" name="last" id="first">
+              <input type="text" name="last" id="first" class="inputs">
             </div>
             <div class="pg2-input last"
             ><label for="last">Last name</label>
-            <input type="text" name="last" id="last">
+            <input type="text" name="last" id="last" class="inputs">
           </div>
             </div>
             <div class="pg2-input"
             ><label for="email">Email</label>
-            <input type="email" name="email" id="email">
+            <input type="email" name="email" id="email" class="inputs">
           </div>
           <div class="pg2-input"
           ><label for="phone">Phone number</label>
-          <input type="tel" name="phone" id="phone">
+          <input type="tel" name="phone" id="phone" class="inputs">
         </div>
         <div class="pg2-input"
         ><label for="address">Address</label>
-        <input type="text" name="address" id="address">
+        <input type="text" name="address" id="address" class="inputs">
       </div>
       <div class="city-post">
         <div class="pg2-input"
         ><label for="post">Postal Code</label>
-        <input type="number" name="post" id="post">
+        <input type="number" name="post" id="post" class="inputs">
       </div>
       <div class="pg2-input"
       ><label for="city">City</label>
-      <input type="text" name="city" id="city">
+      <input type="text" name="city" id="city" class="inputs">
       </div>
       </div>
         </div>
@@ -166,6 +184,7 @@
               <button type="button" class="link">Add Pet</button>
             </div>
             <template class="pet-template">
+              <section class="pet">
               <div class="head">
                 <p class="petNum">Pet <span></span></p>
                 <button type="button" class="delete"></button>
@@ -197,16 +216,16 @@
               <div class="if-other"></div>
               <div class="name pg2-input">
                 <label for="name">Name</label>
-                <input class="pet-name" type="text" name="name" id="name">
+                <input class="pet-name inputs" type="text" name="name" id="name">
               </div>
               <div class="age-sex">
                 <div class="age pg2-input">
                   <label for="age">Age</label>
-                  <input type="number" name="age" id="age">
+                  <input type="number" name="age" id="age" class="inputs">
                 </div>
                 <div class="sex pg2-input">
                   <label for="sex">Sex</label>
-                  <select name="sex" id="sex">
+                  <select name="sex" id="sex" class="inputs">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
@@ -214,22 +233,23 @@
               </div>
               <div class="breed pg2-input">
                 <label for="breed">Breed</label>
-                <input type="text" name="breed" id="breed">
+                <input type="text" name="breed" id="breed" class="inputs">
               </div>
               <div class="health pg2-input">
                 <label for="health">Health</label>
-                <textarea name="health" id="health"></textarea>
+                <textarea name="health" id="health" class="inputs"></textarea>
               </div>
               <div class="vaccine pg2-input">
                 <label for="vaccine">Last Vaccinated</label>
-                <input type="date" name="vaccine" id="vaccine">
+                <input type="date" name="vaccine" id="vaccine" class="inputs">
               </div>
+            </section>
             </template>
           </div>
           <div class="pg4 extra part">
             <div class="pg2-input">
-              <label for="keys">Whay should we do with your keys?</label>
-              <select name="keys" id="keys">
+              <label for="keys">What should we do with your keys?</label>
+              <select name="keys" id="keys" class="inputs">
                 <option value="Keep">Keep them</option>
                 <option value="mailbox">Drop the off in the mailbox</option>
                 <option value="person">Drop the off in person</option>
@@ -237,15 +257,15 @@
             </div>
             <div class="pg2-input">
               <label for="instructions">Care instructions(be as detailed as possible)</label>
-              <textarea rows=3 name="instructions" id="instrucrions"></textarea>
+              <textarea rows=3 name="instructions" id="instrucrions" class="inputs"></textarea>
             </div>
             <div class="pg2-input">
               <label for="leave-time">What time do you leave?</label>
-              <input type="time" name="leave-time" id="leave-time">
+              <input type="time" name="leave-time" id="leave-time" class="inputs">
             </div>
             <div class="pg2-input">
               <label for="arrival-time">What time do you return?</label>
-              <input type="time" name="arrival-time" id="arrival-time">
+              <input type="time" name="arrival-time" id="arrival-time" class="inputs">
             </div>
           </div>
           <div class="pg5 confirmation part">
@@ -285,7 +305,7 @@
           <div class="pg6 pay part">
             <div class="payment-options">
               <div class="pg1-service">
-                <input type="radio" name="method" id="credit-card" class="pg1-type" />
+                <input type="radio" name="method" id="credit-card" class="pg1-type paymentMethod" />
                 <label for="credit-card">
                   <div>
                   <img class="pg6_method_img" src="images/credit-card.png" alt="card">
@@ -294,7 +314,7 @@
                 </label>
                 </div>
                 <div class="pg1-service">
-                  <input type="radio" name="method" id="mobilepay" class="pg1-type" />
+                  <input type="radio" name="method" id="mobilepay" class="pg1-type paymentMethod" />
                   <label for="mobilepay">
                     <div>
                     <img class="pg6_method_img" src="images/clipart2828737.png" alt="mobilepay">
@@ -303,9 +323,13 @@
                   </label>
                   </div>
             </div>
-            <div class="credit-info"></div>
+            <div class="credit-info pg2-input"></div>
           </div>
-          <div class="recipt"></div>
+          <div class="recipt hidden">
+            <p>Your booking os complete!</p>
+            <p>Thank you for using our services</p>
+            <p>You should recieve and email with the confirmation of your booking</p>
+          </div>
           <div class="buttons">
             <button type="button" class="back">Back</button>
             <button type="button" class="next">Next</button>

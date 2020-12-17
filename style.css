@@ -1,26 +1,130 @@
 :root {
-  --selected: 3px #14675e solid;
+  --selected: 2px #14675e solid;
+  --green: #14675e;
+  --blue: #1D6896;
+  --darkGray: #555555;
+  --lightGray: #777777;
+  --white: #fbfbfb;
 }
 
-html,
 body {
   margin: 0;
   padding: 0;
   top: 0;
   left: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
 * {
   box-sizing: border-box;
   font-family: lato, serif;
   margin: 0;
+  color: #555;
 }
+
+header{
+  background-image: url("images/dog-1222364_1920.jpg");
+  background-position: center;
+  background-size: cover;
+  height: 100px;
+}
+
+h1{
+  text-align: center;
+  color: var(--white);
+  line-height: 100px;
+  text-shadow: 1px 1px 1px black;
+  font-size: 30px;
+  font-family: "lora", sans-serif;
+  z-index: 5;
+}
+
+footer{
+  height: 50px;
+  background-color: var(--green);
+margin-top: auto;}
 form {
-  border: 1px solid #555;
+  border: 1px solid var(--lightGray);
   padding: 20px;
   width: 600px;
   max-width: 100%;
+  min-height: 600px;
+  max-height: 100%;
   margin: auto;
   box-shadow: 0px 0px 10px #c5c5c5;
+  overflow-y: hidden;
+  z-index: 1;
+  transition: height .1s linear;
+}
+label{
+  font-weight: bold;
+}
+
+.form{
+  overflow-y: auto;
+}
+
+.progress{
+  counter-reset: step;
+  margin-bottom: 20px;
+  position: sticky;
+}
+ul{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 0px;
+  padding: 0;
+}
+
+.step{
+  width: 100%;
+  list-style: none;
+  position: relative;
+}
+.step:before{
+  content: counter(step);
+  counter-increment: step;
+  text-align: center;
+  height: 40px;
+  width: 40px;
+  line-height: 35px;
+  border: var(--lightGray) solid 1px;
+  display: block;
+  border-radius: 25%;
+  color: var(--lightGray); background-color: var(--white);
+  background-color: var(--white);
+  font-weight: bold;
+  margin: auto;
+}
+
+.step.active:before, .step.done:before{
+  border: none;
+  color: var(--white);
+  background-color: var(--blue);
+}
+
+.step.active:before{
+  font-size: 1.5em;
+}
+.step.active:after, .step.done:after{
+  background-color: var(--blue);
+}
+
+.step:after{
+  content: "";
+  position: absolute;
+  height: 3px;
+  background-color: #555;
+  width: 100%;
+  top: 19px;
+  left: -50%;
+  z-index: -1;
+}
+.progress .step:first-child:after{
+  content: none;
 }
 
 
@@ -57,7 +161,7 @@ form {
   margin: auto;
   text-align: center;
   border-radius: 10px;
-  border: 1px solid #777777;
+  border: 1px solid #bdbdbd;
   overflow: hidden;
   cursor: pointer;
    -webkit-transition: all 300ms linear;
@@ -71,7 +175,7 @@ form {
 
 .pg1-type:checked + label {
   border: var(--selected);
-  box-shadow: 0px 0px 5px #c5c5c5;
+  box-shadow:  0px  0px 3px #bebebe;
 }
 
 .pg1-type-options {
@@ -95,7 +199,7 @@ form {
 [type="number"],
 [type="time"],
 select,
-textarea {
+textarea, .field {
   padding: 7px;
   margin-bottom: 10px;
   margin-top: 2px;
@@ -188,14 +292,18 @@ textarea {
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   grid-row-gap: 7px;
+  margin-bottom: 20px;
 }
 
+.credit-info{
+  margin-bottom: 20px;
+}
 .pg6_method_img{
   height: 40px;
   margin: auto;
 }
 
-input.invalid {
+.inputs.invalid {
   background-color: #ffdddd;
 }
 
@@ -209,7 +317,7 @@ input.invalid {
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-  color: #555;
+  color: var(--darkGray);
   text-decoration: underline;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -218,7 +326,7 @@ input.invalid {
   text-align: center;
   font-size: 14px;
   font-weight: bold;
-  color: #555;
+  color: var(--darkGray);
   text-decoration: underline;
   background-color: transparent;
   border: none;
@@ -266,4 +374,15 @@ input.invalid {
   font-size: 1.3em;
   font-weight: bold;
   margin-bottom: 15px;
+}
+
+@media all and (min-width: 550px){
+  header{
+  height: 300px;
+}
+
+h1{
+  line-height: 300px;
+  font-size: 60px;
+}
 }
