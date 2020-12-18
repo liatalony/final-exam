@@ -207,6 +207,10 @@ textarea, .field {
   border: 1px solid #777777;
 }
 
+[type="date"]{
+  width: 100%;
+}
+
 .start_end,
 .pg2-input {
   display: flex;
@@ -305,6 +309,14 @@ textarea, .field {
 
 .inputs.invalid {
   background-color: #ffdddd;
+}
+
+.inputs + .error{
+  display: none;
+}
+
+.inputs.invalid + .error{
+  display: block;
 }
 
 .error{

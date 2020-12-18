@@ -34,7 +34,6 @@
           <div class="pg1 part">
             <div class="type-of-pets">
               <p>What type of pet(s) do you have?</p>
-              <p class="error hidden">*You have to choose st least one</p>
               <div class="pg1-type-options">
                 <div class="pg1-types">
                 <input type="checkbox" name="type_of_pet" id="pg1-type-cat" class="pg1-type" required/>
@@ -55,21 +54,19 @@
                 </label>
                 </div>
               </div>
+              <p class="error hidden">*You have to choose st least one</p>
             </div>
             <div class="start_end">
               <p>When do you need us?</p>
               <label for="pg1_start_date">Start date</label>
               <input type="date" name="start_date" id="pg1_start_date" class="inputs" required>
-              <p class="error hidden">*You have to choose a start date</p> 
+              <p class="error">*You have to choose a start date</p> 
               <label for="pg1_end_date">End date</label>
               <input type="date" name="end_date" id="pg1_end_date" class="inputs" required> 
-              <p class="error choose hidden">*You have to choose an end date</p> 
-              <p class="error earlier hidden">*End date cannot be earlier than start date</p> 
+              <p class="error">*You have to choose an end date</p> 
             </div>
             <div class="services">
               <p>Choose a service</p>
-              <p class="error hidden">*You have to choose st least one</p>
-
               <div class="pg1-services-options">
                 <div class="pg1-service">
                   <input type="radio" name="service" id="pg1-sitting" class="service pg1-type" required/>
@@ -112,6 +109,7 @@
                 </label>
                 </div>
                 </div>
+                <p class="error hidden">*You have to choose one</p>
                 <div class="days">
                   <div class="daysGeneral start_end hidden"></div>
                   <div class="daysFirstLast hidden start_end">
@@ -147,32 +145,39 @@
               <div class="pg2-input first"
               ><label for="first">First name</label>
               <input type="text" name="last" id="first" class="inputs">
+              <p class="error">*This field is required</p>
             </div>
             <div class="pg2-input last"
             ><label for="last">Last name</label>
             <input type="text" name="last" id="last" class="inputs">
+            <p class="error">*This field is required</p>
           </div>
             </div>
             <div class="pg2-input"
             ><label for="email">Email</label>
-            <input type="email" name="email" id="email" class="inputs">
+            <input type="email" name="send_to" id="email" class="inputs">
+            <p class="error">*This field is required</p>
           </div>
           <div class="pg2-input"
           ><label for="phone">Phone number</label>
           <input type="tel" name="phone" id="phone" class="inputs">
+          <p class="error">*This field is required</p>
         </div>
         <div class="pg2-input"
         ><label for="address">Address</label>
         <input type="text" name="address" id="address" class="inputs">
+        <p class="error">*This field is required</p>
       </div>
       <div class="city-post">
         <div class="pg2-input"
         ><label for="post">Postal Code</label>
         <input type="number" name="post" id="post" class="inputs">
+        <p class="error">*This field is required</p>
       </div>
       <div class="pg2-input"
       ><label for="city">City</label>
       <input type="text" name="city" id="city" class="inputs">
+      <p class="error">*This field is required</p>
       </div>
       </div>
         </div>
@@ -191,10 +196,9 @@
               </div>
               <div class="type-of-pets">
                 <p>What type of pet do you have?</p>
-                <p class="error hidden">*You have to choose st least one</p>
                 <div class="pg1-type-options">
                   <div class="pg1-types">
-                  <input type="radio" name="type_of_pet" id="pg3-type-cat" class="pg1-type" required/>
+                    <input type="radio" name="type_of_pet" id="pg3-type-cat" class="pg1-type" required/>
                   <label for="pg3-type-cat">
                     Cat
                   </label>
@@ -204,24 +208,27 @@
                   <label for="pg3-type-dog">
                     Dog
                   </label>
-                  </div>
-                  <div class="pg1-types">
+                </div>
+                <div class="pg1-types">
                   <input type="radio" name="type_of_pet" id="pg3-type-other" class="pg1-type" />
                   <label for="pg3-type-other">
                     Other
                   </label>
-                  </div>
                 </div>
+              </div>
+              <p class="error hidden">*You have to choose st least one</p>
               </div>
               <div class="if-other"></div>
               <div class="name pg2-input">
                 <label for="name">Name</label>
                 <input class="pet-name inputs" type="text" name="name" id="name">
+                <p class="error">*This field is required</p>
               </div>
               <div class="age-sex">
                 <div class="age pg2-input">
                   <label for="age">Age</label>
                   <input type="number" name="age" id="age" class="inputs">
+                  <p class="error">*This field is required</p>
                 </div>
                 <div class="sex pg2-input">
                   <label for="sex">Sex</label>
@@ -234,14 +241,17 @@
               <div class="breed pg2-input">
                 <label for="breed">Breed</label>
                 <input type="text" name="breed" id="breed" class="inputs">
+                <p class="error">*This field is required</p>
               </div>
               <div class="health pg2-input">
                 <label for="health">Health</label>
                 <textarea name="health" id="health" class="inputs"></textarea>
+                <p class="error">*This field is required</p>
               </div>
               <div class="vaccine pg2-input">
                 <label for="vaccine">Last Vaccinated</label>
                 <input type="date" name="vaccine" id="vaccine" class="inputs">
+                <p class="error">*This field is required</p>
               </div>
             </section>
             </template>
@@ -258,14 +268,17 @@
             <div class="pg2-input">
               <label for="instructions">Care instructions(be as detailed as possible)</label>
               <textarea rows=3 name="instructions" id="instrucrions" class="inputs"></textarea>
+              <p class="error">*This field is required</p>
             </div>
             <div class="pg2-input">
               <label for="leave-time">What time do you leave?</label>
               <input type="time" name="leave-time" id="leave-time" class="inputs">
+              <p class="error">*This field is required</p>
             </div>
             <div class="pg2-input">
               <label for="arrival-time">What time do you return?</label>
               <input type="time" name="arrival-time" id="arrival-time" class="inputs">
+              <p class="error">*This field is required</p>
             </div>
           </div>
           <div class="pg5 confirmation part">
@@ -329,6 +342,7 @@
             <p>Your booking os complete!</p>
             <p>Thank you for using our services</p>
             <p>You should recieve and email with the confirmation of your booking</p>
+            <div class="summary"></div>
           </div>
           <div class="buttons">
             <button type="button" class="back">Back</button>

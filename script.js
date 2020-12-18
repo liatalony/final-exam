@@ -2,8 +2,10 @@ window.addEventListener("DOMContentLoaded", init);
 let currentTab = 0; // Current tab is set to be the first tab (0)
 let petCount = 0;
 function init() {
-showTab(currentTab); // Display the current tab
-addPetForm(petCount);
+  //document.querySelector("form").reset();
+
+
+//--------<EVENTLISTENERS>-----------//
  let nextBtn = document.querySelector(".next"); 
  nextBtn.addEventListener("click", ()=>{
   nextPrev(1)
@@ -24,93 +26,108 @@ type.addEventListener("input", filterServices)
  services.forEach((e)=>{
   e.addEventListener("input", displayfields);
  })
-
  let methods = document.querySelectorAll(".paymentMethod");
  console.log(methods);
  methods.forEach((method)=>{
    method.addEventListener("input", showDetails);
  })
+ 
+ addPetForm(petCount);
+ let inputs = document.querySelectorAll(".inputs");
+ inputs.forEach((input)=>{
+   input.addEventListener("input", ()=>{
+     input.classList.remove("invalid");
+   })
+ })
+
+ //----<functions called an page load>---------//
+setStartDate();
  filterServices();
  displayfields();
+ showTab(currentTab); // Display the current tab
+}
+// make past date disabled when choosing dates for service
+function setStartDate(){
+  let startDate = document.querySelector("#pg1_start_date");
+  let endDate = document.querySelector("#pg1_end_date");
+  var dtToday = new Date();
+     
+  var month = dtToday.getMonth() + 1;
+  var day = dtToday.getDate();
+  var year = dtToday.getFullYear();
+  if(month < 10){
+    month = '0' + month.toString();
+  }
+  if(day < 10){
+    day = '0' + day.toString();
+  }
+  
+  var maxDate = year + '-' + month + '-' + day;
+  startDate.setAttribute('min', maxDate);
+  endDate.setAttribute('min', maxDate);
+  startDate.addEventListener("input", setEndDate);
+}
+//make dates before start date disabled - end date > start date
+function setEndDate(){
+  var dtToday = new Date(document.querySelector("#pg1_start_date").value);
+  let endDate = document.querySelector("#pg1_end_date");
+    
+  var month = dtToday.getMonth() + 1;
+  var day = dtToday.getDate();
+  var year = dtToday.getFullYear();
+  if(month < 10){
+    month = '0' + month.toString();
+  }
+  if(day < 10){
+    day = '0' + day.toString();
+  }
+  var maxDate = year + '-' + month + '-' + day;
+  endDate.setAttribute('min', maxDate);
 }
 
-const pet = {
-  type:"",
-  name:"",
-  age:undefined,
-  breed:"",
-  Health:"",
-  lastVaccinated:undefined
-};
-
-const formDetails = {
-  from:undefined,
-  to:undefined,
-  service:"",
-  timesPerDay:undefined,
-  timesOnFirst:undefined,
-  timesOnLast:undefined,
-  medication:false,
-  intro:true,
-  virtualIntro:false,
-  name:"",
-  email:"",
-  phone:"",
-  address:"",
-  postal:"",
-  city:"",
-  pets:[],
-  keys:"",
-  inst:"",
-  timeOfLeave:"",
-  timeOfReturn:""
-}
-
-function showTab(tab){
+function showTab(tab){ // display the right step
   let tabs = document.getElementsByClassName("part");
   tabs[tab].style.display ="block";
   if (tab==0) {
-    document.querySelector(".back").classList.add("hidden");
+    document.querySelector(".back").classList.add("hidden"); // hide back button on first step
   }else{
     document.querySelector(".back").classList.remove("hidden");
   }
   if (tab == 4) {
-    document.querySelector(".next").textContent = "Confirm";
+    document.querySelector(".next").textContent = "Confirm"; // change "Next" buttons meaning
   } else if (tab == 5) {
-    document.querySelector(".next").textContent = `Pay ${totalPrice} kr`;
+    document.querySelector(".next").classList.add("hidden");
+    document.querySelector(".next").textContent = `Pay ${totalPrice} kr`;// change "Next" buttons meaning
   }else{
     document.querySelector(".next").textContent = "Next";
+    document.querySelector(".next").classList.remove("hidden");
   }
   updateStep(tab);
 }
 
-function nextPrev(n){
+function nextPrev(n){ // next / back
   let tabs = document.getElementsByClassName("part");
-  if (n == 1 && !validateForm()) return false;
+  if (n == 1 && !validateForm()) return false; // if inputs are not valid dont move on to next step
   if (currentTab == 3) {
-    numOfDays();
+    numOfDays(); // get the amount of days of service
   }
-  tabs[currentTab].style.display = "none";
+  tabs[currentTab].style.display = "none"; // hide current step
   updateStep(tabs);
   currentTab = currentTab + n;
 
-  if (currentTab == 6) {
-    //ocument.querySelector("form").submit();
+  if (currentTab == 6) { // hide everything and show the recipt
     document.querySelector(".next").setAttribute("type", "submit");
-    console.log("submit");
     document.querySelector(".buttons").classList.add("hidden");
     document.querySelector(".progress").classList.add("hidden");
     document.querySelector(".recipt").classList.remove("hidden")
     return false;
-  } else {
-    // Otherwise, display the correct tab:
+  } else {   // Otherwise, display the correct tab:
     document.querySelector(".next").setAttribute("type", "button");
     showTab(currentTab);
   }
 }
 
-function validateForm(){
-    // This function deals with validation of the form fields
+function validateForm(){ // This function deals with validation of the form fields
     let valid = true;
     let tabs = document.getElementsByClassName("part");
     let inputs = tabs[currentTab].getElementsByClassName("inputs");
@@ -119,20 +136,35 @@ function validateForm(){
       // If a field is empty...
       if (inputs[i].value == "") {
         // add an "invalid" class to the field:
-        inputs[i].className += " invalid";
+        inputs[i].classList.add("invalid");
         // and set the current valid status to false
         valid = false;
       }
     }
-    if (tabs[currentTab].className == "pg1 part") {
-      let checkbox = tabs[currentTab].querySelectorAll("input[type=checkbox].pg1-type:checked");
-      if (checkbox.length == 0) {
+    if (currentTab == 0) {
+      let types = document.querySelectorAll(".pg1 input[type=checkbox].pg1-type");
+      types.forEach((type)=>{
+        type.addEventListener("input",()=>{
+          type.parentElement.parentElement.nextElementSibling.classList.add("hidden");
+        })
+      })
+      let serviceTypes = document.querySelectorAll(".pg1 input[type=radio].pg1-type");
+      serviceTypes.forEach((type)=>{
+        type.addEventListener("input",()=>{
+          type.parentElement.parentElement.nextElementSibling.classList.add("hidden");
+        })
+      })
+      let checkbox = tabs[currentTab].querySelectorAll("input[type=checkbox].pg1-type:checked"); // get type of pets
+      if (checkbox.length == 0) { //if nothing is checked
         valid = false
+        let type = document.querySelector(".pg1 input[type=checkbox].pg1-type");
+        type.parentElement.parentElement.nextElementSibling.classList.remove("hidden");
       }
-  
-      let radio = tabs[currentTab].querySelectorAll("input[type=radio].pg1-type:checked");
-      if (radio.length == 0) {
+      let radio = tabs[currentTab].querySelectorAll("input[type=radio].pg1-type:checked"); // get selected service
+      if (radio.length == 0) { //if nothing is selected
         valid = false
+        let type = document.querySelector(".pg1 input[type=radio].pg1-type");
+        type.parentElement.parentElement.nextElementSibling.classList.remove("hidden");
       }
     }
     if (valid) {
@@ -143,7 +175,7 @@ function validateForm(){
     return valid; // return the valid status
 }
 
-function updateStep (){
+function updateStep (){ // show current step on step indicator
   let steps = document.querySelectorAll(".step");
   for (let i = 0; i < steps.length; i++) {
     steps[i].classList.remove("active");
@@ -151,10 +183,10 @@ function updateStep (){
 steps[currentTab].classList.add("active");
 }
 
-function filterServices(){
+function filterServices(){ // filter the services available based on the types of animals you have
   let typeCat = document.querySelector("#pg1-type-cat");
   let typeother = document.querySelector("#pg1-type-other");
-  if (typeCat.checked || typeother.checked) {
+  if (typeCat.checked || typeother.checked) { // if cat or other is checked - dog only services are disabled
     let dogInputs = document.querySelectorAll("input.dog-only");
     let dogLabels = document.querySelectorAll("label.dog-only");
     for (let i = 0; i < dogInputs.length; i++) {
@@ -176,10 +208,10 @@ function filterServices(){
   displayfields();
 }
 
-function displayfields(){
+function displayfields(){ // display conditional fields
   let walking = document.querySelector("#pg1-walking");
   let sitting = document.querySelector("#pg1-sitting");
-  if (walking.checked||sitting.checked) {
+  if (walking.checked||sitting.checked) { // if dog walking or pet sitting is selected show conditional field
     timesPerDay();
   }else{
    document.querySelector(".daysGeneral").classList.add("hidden")
@@ -189,30 +221,29 @@ function displayfields(){
   }
 }
 
-function addPetForm (){
+function addPetForm (){ // add pet info form
   petCount++;
-  const template = document.querySelector("template.pet-template").content.cloneNode(true);
+  const template = document.querySelector("template.pet-template").content.cloneNode(true); // copy template
   template.querySelector(".petNum span").textContent = petCount;
   let ifOther = template.querySelector(".if-other");
   let trash = template.querySelector(".delete");
-  //console.log(trash);
   let labels = template.querySelectorAll("label");
   for (let i = 0; i < labels.length; i++) {
     let label = labels[i];
-    label.setAttribute("for", `${label.getAttribute("for")}${petCount}`)
+    label.setAttribute("for", `${label.getAttribute("for")}${petCount}`) // set unique ids and fors
   }
   let inputs = template.querySelectorAll("input");
   for (let i = 0; i < inputs.length; i++) {
     let input = inputs[i];
-    input.setAttribute("id", `${input.getAttribute("id")}${petCount}`)
-    input.setAttribute("name", `${input.getAttribute("name")}${petCount}`)
+    input.setAttribute("id", `${input.getAttribute("id")}${petCount}`)// set unique ids and fors
+    input.setAttribute("name", `${input.getAttribute("name")}${petCount}`)// set unique ids and fors
   }
   let health = template.querySelector("textarea");
   health.setAttribute("id", `${health.getAttribute("id")}${petCount}`)
   let radio = template.querySelectorAll("input[type=radio]");
   radio.forEach(e => {
     e.addEventListener("input", ()=>{
-      if (e.checked == true&&e.id==`pg3-type-other${petCount}`) {
+      if (e.checked == true&&e.id==`pg3-type-other${petCount}`) { // create type of pet field if other is chosen
         let other = document.createElement("div");
         other.className="other pg2-input";
         let otherLabel = document.createElement("label");
@@ -225,7 +256,7 @@ function addPetForm (){
         other.append(otherInput);
         ifOther.append(other)
       } else{
-        ifOther.innerHTML = "";
+        ifOther.innerHTML = ""; // remove type of pet if another type is chosen
       }
     })
   });
@@ -235,12 +266,11 @@ function addPetForm (){
   trash.addEventListener("click",()=>{
     newDiv.parentElement.removeChild(newDiv);
   })
-  document.querySelector(".pet-forms").append(newDiv);
+  document.querySelector(".pet-forms").append(newDiv); // appened the pet form in the form
 
 }
 let days_difference;
-function numOfDays(){
-  //define two date object variables with dates inside it  
+function numOfDays(){ // calculate the number of days from start date to end date
   let date1 = new Date(document.querySelector("#pg1_start_date").value);  
   let date2 = new Date(document.querySelector("#pg1_end_date").value);  
            
@@ -254,7 +284,7 @@ function numOfDays(){
 }
 
 let weekendDays = 0;
-function isWeekend(date1, date2){
+function isWeekend(date1, date2){ // calculate how many weekend days are in the service
 let weekend = false;
 while (date1 < date2) {
   let day = date1.getDay();
@@ -266,7 +296,7 @@ console.log( "weekend days: " + weekendDays);
 showConfirmation();
 }
 
-function timesPerDay(){
+function timesPerDay(){ // conditional fields
   document.querySelector(".daysGeneral").classList.remove("hidden")
   document.querySelector(".daysGeneral").innerHTML="";
   document.querySelector(".daysFirstLast").innerHTML ="";
@@ -281,7 +311,7 @@ function timesPerDay(){
   });
 }
 
-function firstLast(){
+function firstLast(){ // conditional fields
   const container = document.querySelector(".daysFirstLast")
   container.classList.remove("hidden");
   container.innerHTML = "";
@@ -289,7 +319,7 @@ function firstLast(){
   selectdays("How many time on the last day?", "timesLast", container);
 }
 
-function selectdays(question, id, container){
+function selectdays(question, id, container){ // create conditional field
   let label = document.createElement("label");
   label.setAttribute("for", id);
   label.textContent = question;
@@ -308,7 +338,7 @@ function selectdays(question, id, container){
   container.append(input);
 }
 let totalPrice;
-function showConfirmation(){
+function showConfirmation(){ // display summery of booking
   let price;
   let weekendPrice = 0;
   let medicationPrice = 0;
@@ -450,7 +480,7 @@ function showConfirmation(){
 document.querySelector(".bookings").append(template);
 }
 
-function showDetails(){
+function showDetails(){ // credit card fields
   let card = document.querySelector(".paymentMethod#credit-card");
   if (card.checked) {
     let nameLabel = document.createElement("label");
@@ -469,11 +499,16 @@ function showDetails(){
     let errormsg = document.createElement("p");
     errormsg.classList.add("error","hidden");
     document.querySelector(".credit-info").append(nameLabel, nameInput, cardLabel, cardInput, errormsg);
+    document.querySelector(".next").classList.remove("hidden");
     stripeStuff();
   }else{
+    document.querySelector(".next").classList.add("hidden");
     document.querySelector(".credit-info").innerHTML="";
   }
 }
+
+//stripe fields settings
+//https://stripe.com/docs/js
 var stripe = Stripe('pk_test_51HzJxADA3uJiKcuR4X3s8HnqtQUW6CaWBI0f03dR064VRvTE10LUaBoYNgsL7wGgqAknPicUMgGeKcSlzpFDkmQf00VXwvFGJu');
 var elements = stripe.elements();
 var cardElement = elements.create('card',  {
@@ -510,9 +545,8 @@ function stripeStuff(){
   });
 
 }
-
+// stripe
 function setOutcome(result) {
-  console.log("hi there!!");
   let errorElement = document.querySelector(".credit-info .error");
   errorElement.classList.add("hidden");
 
@@ -526,19 +560,18 @@ function setOutcome(result) {
   }
 }
 
-document.querySelector("form").addEventListener("submit", function (e) {
+document.querySelector("form").addEventListener("submit", function (e) { // when submitting the form
   e.preventDefault();
   //this.contact_number.value = Math.random() * 100000 | 0;
                 // these IDs from the previous steps
-             /*   emailjs.sendForm('confirmation_xo7e3gj', 'booking_form', this)
+                emailjs.sendForm('confirmation_xo7e3gj', 'booking_form', this)
                     .then(function() {
                         console.log('SUCCESS!');
                     }, function(error) {
                         console.log('FAILED...', error);
-                    });*/
+                    });
   console.log("submiting");
   let form = document.querySelector("form#form");
-  console.log(form);
   let extraDetails = {
     name: form.querySelector("#cardHolder").value,
   };
